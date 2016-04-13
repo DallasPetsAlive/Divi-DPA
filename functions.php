@@ -11,6 +11,10 @@ function lorem_function() {
 
 add_shortcode('lorem', 'lorem_function');
 
+
+/*
+	These are the filters at the top of the dog search page.
+*/
 function dog_filters_sc() {
 	ob_start();
 	?>
@@ -45,6 +49,9 @@ function dog_filters_sc() {
 
 add_shortcode('dog_filters', 'dog_filters_sc');
 
+/*
+	The list of dogs.
+*/
 function dog_list_sc() {
 	ob_start();
 	$filters = array(
@@ -204,100 +211,9 @@ function dog_list_sc() {
 
 add_shortcode('dog_list', 'dog_list_sc');
 
-function dpa_title() {
-	global $dogId;
-
-	if(isset($_GET['id'])) {
-		$dogId = $_GET['id'];
-		
-		$filters = array(
-			array(
-				"fieldName" => "animalID",
-				"operation" => "equals",
-				"criteria" => $dogId,
-			),
-		);	
-	}
-	
-	$data = array(
-		"apikey" => "QltdwQc9",
-		"objectType" => "animals",
-		"objectAction" => "publicSearch",
-		"search" => array (
-			"resultStart" => 0,
-			"resultLimit" => 1,
-			"resultSort" => "animalName",
-			"resultOrder" => "asc",
-			"calcFoundRows" => "Yes",    
-			"filters" => $filters,
-			"fields" => array("animalID","animalName","animalBreed","animalSex","animalThumbnailUrl","animalGeneralSizePotential","animalGeneralAge","animalPictures","animalDescription","animalAdoptionFee")
-		),
-	);
-	
-	$jsonData = json_encode($data);
-	
-	// create a new cURL resource
-	$ch = curl_init();
-
-	// set options, url, etc.
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-	curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
-	 
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-	curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	 
-	//curl_setopt($ch, CURLOPT_VERBOSE, true);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-	$result = curl_exec($ch);
-	
-	if (curl_errno($ch)) {
-		$results = curl_error($ch);
-	} else {
-		// close cURL resource, and free up system resources
-		curl_close($ch);
-
-		$results = $result;
-	}
-	
-	$resultsArray = json_decode($results, true);
-
-	$dogData = $resultsArray['data'];
-
-	$dogCount = 0;
-	global $dogError;
-	$dogError = 0;
-	
-	global $dog;
-	
-	foreach($dogData as $dog) {
-		$dogCount++;
-		
-		$dogName = $dog["animalName"];
-		if(count($dog["animalPictures"]) > 0) {
-			$dogThumbnail = $dog["animalPictures"][0]["urlInsecureFullsize"];
-		}
-		else {
-			$dogThumbnail = "http://dallaspetsalive.org/images/site_graphics/logo.gif";
-		}
-	} 
-	
-	if($dogCount != 1) {
-		$dogError = 1;
-	} else {
-		echo '<title>' . $dogName . ' | Dallas Pets Alive!' . '</title>';
-		
-		echo '<meta property="fb:admins" content="ktbird"/>';
-        echo '<meta property="og:title" content="Adopt ' . $dogName . ' | Dallas Pets Alive!"/>';
-        echo '<meta property="og:type" content="website"/>';
-        echo '<meta property="og:url" content="' . get_permalink() . '?id=' . $dogId . '"/>';
-        echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
-        echo '<meta property="og:image" content="' . $dogThumbnail . '"/>';
-		echo '<meta property="og:description" content="' . $dogName . ' is available for adoption from Dallas Pets Alive! Click to find out more.' . '"/>';
-	}
-}
-
+/*
+	The dog profile page.
+*/
 function dog_profile_sc () {
 	global $dog;
 	global $dogError;
@@ -404,15 +320,6 @@ function dog_profile_sc () {
 	return ob_get_clean();
 }
 
-function og_dpa () {
-	echo '<meta property="fb:admins" content="ktbird"/>';
-	echo '<meta property="og:title" content="' . get_the_title() . '"/>';
-	echo '<meta property="og:type" content="website"/>';
-	echo '<meta property="og:url" content="' . get_permalink() . '"/>';
-	echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
-	//echo '<meta property="og:image" content="' . $dogThumbnail . '"/>';
-}
-
 add_shortcode('dog_profile', 'dog_profile_sc');
 
 function get_dog_name_sc () {
@@ -423,7 +330,112 @@ function get_dog_name_sc () {
 
 add_shortcode('get_dog_name', 'get_dog_name_sc');
 
+function og_dpa () {
+	echo '<meta property="fb:admins" content="ktbird"/>';
+	echo '<meta property="og:title" content="' . get_the_title() . '"/>';
+	echo '<meta property="og:type" content="website"/>';
+	echo '<meta property="og:url" content="' . get_permalink() . '"/>';
+	echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
+	//echo '<meta property="og:image" content="' . $dogThumbnail . '"/>';
+}
 
+function dpa_title() {
+	global $dogId;
+
+	if(isset($_GET['id'])) {
+		$dogId = $_GET['id'];
+		
+		$filters = array(
+			array(
+				"fieldName" => "animalID",
+				"operation" => "equals",
+				"criteria" => $dogId,
+			),
+		);	
+	}
+	
+	$data = array(
+		"apikey" => "QltdwQc9",
+		"objectType" => "animals",
+		"objectAction" => "publicSearch",
+		"search" => array (
+			"resultStart" => 0,
+			"resultLimit" => 1,
+			"resultSort" => "animalName",
+			"resultOrder" => "asc",
+			"calcFoundRows" => "Yes",    
+			"filters" => $filters,
+			"fields" => array("animalID","animalName","animalBreed","animalSex","animalThumbnailUrl","animalGeneralSizePotential","animalGeneralAge","animalPictures","animalDescription","animalAdoptionFee")
+		),
+	);
+	
+	$jsonData = json_encode($data);
+	
+	// create a new cURL resource
+	$ch = curl_init();
+
+	// set options, url, etc.
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+	curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+	 
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+	curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	 
+	//curl_setopt($ch, CURLOPT_VERBOSE, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$result = curl_exec($ch);
+	
+	if (curl_errno($ch)) {
+		$results = curl_error($ch);
+	} else {
+		// close cURL resource, and free up system resources
+		curl_close($ch);
+
+		$results = $result;
+	}
+	
+	$resultsArray = json_decode($results, true);
+
+	$dogData = $resultsArray['data'];
+
+	$dogCount = 0;
+	global $dogError;
+	$dogError = 0;
+	
+	global $dog;
+	
+	foreach($dogData as $dog) {
+		$dogCount++;
+		
+		$dogName = $dog["animalName"];
+		if(count($dog["animalPictures"]) > 0) {
+			$dogThumbnail = $dog["animalPictures"][0]["urlInsecureFullsize"];
+		}
+		else {
+			$dogThumbnail = "http://dallaspetsalive.org/images/site_graphics/logo.gif";
+		}
+	} 
+	
+	if($dogCount != 1) {
+		$dogError = 1;
+	} else {
+		echo '<title>' . $dogName . ' | Dallas Pets Alive!' . '</title>';
+		
+		echo '<meta property="fb:admins" content="ktbird"/>';
+        echo '<meta property="og:title" content="Adopt ' . $dogName . ' | Dallas Pets Alive!"/>';
+        echo '<meta property="og:type" content="website"/>';
+        echo '<meta property="og:url" content="' . get_permalink() . '?id=' . $dogId . '"/>';
+        echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
+        echo '<meta property="og:image" content="' . $dogThumbnail . '"/>';
+		echo '<meta property="og:description" content="' . $dogName . ' is available for adoption from Dallas Pets Alive! Click to find out more.' . '"/>';
+	}
+}
+
+/*
+	The cheat sheet... not really used anymore
+*/
 function cheat_sheet_sc() {
 	ob_start();
 	
@@ -548,6 +560,7 @@ function cheat_sheet_sc() {
 
 add_shortcode('cheat_sheet', 'cheat_sheet_sc');
 
+/*
 function back_in_black_sc() {
 	ob_start();
 	$filters = array(
@@ -665,5 +678,6 @@ function back_in_black_sc() {
 }
 
 add_shortcode('back_in_black', 'back_in_black_sc');
+*/
 
 ?>
