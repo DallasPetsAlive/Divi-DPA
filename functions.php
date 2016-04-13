@@ -390,6 +390,7 @@ function cat_list_sc() {
 	
 	if(isset($_POST['catcoat'])) {
 		$catCoat = $_POST['catcoat'];
+		print_r($catCoat);
 		
 		if(!($catCoat == "all")) {
 			$coatArray = array (
@@ -405,7 +406,7 @@ function cat_list_sc() {
 	
 	if(isset($_POST['catage'])) {
 		$catAge = $_POST['catage'];
-		//print_r($catAge);
+		print_r($catAge);
 		
 		if(!($catAge == "all")) {
 			$ageArray = array (
@@ -421,7 +422,7 @@ function cat_list_sc() {
 	
 	if(isset($_POST['catgender'])) {
 		$catGender = $_POST['catgender'];
-		//print_r($catGender);
+		print_r($catGender);
 		
 		if(!($catGender == "all")) {
 			$genderArray = array (
@@ -435,7 +436,7 @@ function cat_list_sc() {
 		}
 	}
 	
-	//print_r($filters);
+	print_r($filters);
 
 	$data = array(
 		"apikey" => "QltdwQc9",
@@ -647,6 +648,100 @@ function get_cat_name_sc () {
 }
 
 add_shortcode('get_cat_name', 'get_cat_name_sc');
+
+function dpa_title_cat() {
+	global $catId;
+
+	if(isset($_GET['id'])) {
+		$catId = $_GET['id'];
+		
+		$filters = array(
+			array(
+				"fieldName" => "animalID",
+				"operation" => "equals",
+				"criteria" => $catId,
+			),
+		);	
+	}
+	
+	$data = array(
+		"apikey" => "QltdwQc9",
+		"objectType" => "animals",
+		"objectAction" => "publicSearch",
+		"search" => array (
+			"resultStart" => 0,
+			"resultLimit" => 1,
+			"resultSort" => "animalName",
+			"resultOrder" => "asc",
+			"calcFoundRows" => "Yes",    
+			"filters" => $filters,
+			"fields" => array("animalID","animalName","animalBreed","animalSex","animalThumbnailUrl","animalCoatLength","animalGeneralAge","animalPictures","animalDescription","animalAdoptionFee")
+		),
+	);
+	
+	$jsonData = json_encode($data);
+	
+	// create a new cURL resource
+	$ch = curl_init();
+
+	// set options, url, etc.
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+	curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+	 
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+	curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	 
+	//curl_setopt($ch, CURLOPT_VERBOSE, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$result = curl_exec($ch);
+	
+	if (curl_errno($ch)) {
+		$results = curl_error($ch);
+	} else {
+		// close cURL resource, and free up system resources
+		curl_close($ch);
+
+		$results = $result;
+	}
+	
+	$resultsArray = json_decode($results, true);
+
+	$catData = $resultsArray['data'];
+
+	$catCount = 0;
+	global $catError;
+	$catError = 0;
+	
+	global $cat;
+	
+	foreach($catData as $cat) {
+		$catCount++;
+		
+		$catName = $cat["animalName"];
+		if(count($cat["animalPictures"]) > 0) {
+			$catThumbnail = $cat["animalPictures"][0]["urlInsecureFullsize"];
+		}
+		else {
+			$catThumbnail = "http://dallaspetsalive.org/images/site_graphics/logo.gif";
+		}
+	} 
+	
+	if($catCount != 1) {
+		$catError = 1;
+	} else {
+		echo '<title>' . $catName . ' | Dallas Pets Alive!' . '</title>';
+		
+		echo '<meta property="fb:admins" content="ktbird"/>';
+        echo '<meta property="og:title" content="Adopt ' . $catName . ' | Dallas Pets Alive!"/>';
+        echo '<meta property="og:type" content="website"/>';
+        echo '<meta property="og:url" content="' . get_permalink() . '?id=' . $catId . '"/>';
+        echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
+        echo '<meta property="og:image" content="' . $catThumbnail . '"/>';
+		echo '<meta property="og:description" content="' . $catName . ' is available for adoption from Dallas Pets Alive! Click to find out more.' . '"/>';
+	}
+}
 
 /***********
 	end cat changes
