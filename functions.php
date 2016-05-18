@@ -390,7 +390,6 @@ function cat_list_sc() {
 	
 	if(isset($_POST['catcoat'])) {
 		$catCoat = $_POST['catcoat'];
-		print_r($catCoat);
 		
 		if(!($catCoat == "all")) {
 			$coatArray = array (
@@ -406,7 +405,6 @@ function cat_list_sc() {
 	
 	if(isset($_POST['catage'])) {
 		$catAge = $_POST['catage'];
-		print_r($catAge);
 		
 		if(!($catAge == "all")) {
 			$ageArray = array (
@@ -422,7 +420,6 @@ function cat_list_sc() {
 	
 	if(isset($_POST['catgender'])) {
 		$catGender = $_POST['catgender'];
-		print_r($catGender);
 		
 		if(!($catGender == "all")) {
 			$genderArray = array (
