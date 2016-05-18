@@ -17,7 +17,7 @@
 	<?php 
 	if(is_page('1043')) { 
 		dpa_title(); 
-	} elseif(is_page('9124')) { // TODO get right page ID
+	} elseif(is_page('9155')) { // TODO get right page ID
 		dpa_title_cat();
 	} else { ?>
 	<title><?php elegant_titles(); ?></title><?php og_dpa(); ?>
