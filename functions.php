@@ -573,7 +573,7 @@ function cat_profile_sc () {
 		echo "</div> <!-- .et_pb_text --><div class=\"et_pb_promo et_pb_bg_layout_dark et_pb_text_align_center\" style=\"background-color: #006cb7;\">";
 		echo "<div class=\"et_pb_promo_description\">";
 		echo "<h3>Fill Out an Adoption Application for ";
-		echo $dog["animalName"];
+		echo $cat["animalName"];
 		echo " Online Today!</h3>";
 				
 		echo "</div>";
