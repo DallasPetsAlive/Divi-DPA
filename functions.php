@@ -435,8 +435,6 @@ function cat_list_sc() {
 			$filters = array_merge($filters, $genderArray);
 		}
 	}
-	
-	print_r($filters);
 
 	$data = array(
 		"apikey" => "QltdwQc9",
