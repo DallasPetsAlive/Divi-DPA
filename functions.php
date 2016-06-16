@@ -123,7 +123,7 @@ function dog_list_sc() {
 		"objectAction" => "publicSearch",
 		"search" => array (
 			"resultStart" => 0,
-			"resultLimit" => 100,
+			"resultLimit" => 120,
 			"resultSort" => "animalName",
 			"resultOrder" => "asc",
 			"calcFoundRows" => "Yes",    
