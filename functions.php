@@ -399,6 +399,8 @@ function dog_list_page_one_sc() {
     if($num == 0) {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
+    else if (!$filter_set) {
+        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
     }
 
     return ob_get_clean();
