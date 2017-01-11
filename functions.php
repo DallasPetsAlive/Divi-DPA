@@ -400,7 +400,7 @@ function dog_list_page_one_sc() {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
     else if (!$filter_set) {
-        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href='../adoptable-dogs-2'><u>Next Page ></u></a></div>";
     }
 
     return ob_get_clean();
@@ -492,7 +492,7 @@ function dog_list_page_two_sc() {
             $left = 1;
         }
 
-        echo "<a href=\"dog-profile?id=";
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
         echo $dog['animalID'];
         echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
         //echo $dog['animalThumbnailUrl'];
@@ -523,8 +523,8 @@ function dog_list_page_two_sc() {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
     else {
-        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
-        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+        echo "<div style='float:left;'><h2><a href='../adoptable-dogs'><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href='../adoptable-dogs-3'><u>Next Page ></u></a></div>";
     }
 
     return ob_get_clean();
@@ -616,7 +616,7 @@ function dog_list_page_three_sc() {
             $left = 1;
         }
 
-        echo "<a href=\"dog-profile?id=";
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
         echo $dog['animalID'];
         echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
         //echo $dog['animalThumbnailUrl'];
@@ -647,8 +647,8 @@ function dog_list_page_three_sc() {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
     else {
-        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
-        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+        echo "<div style='float:left;'><h2><a href='../adoptable-dogs-2'><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href='../adoptable-dogs-4'><u>Next Page ></u></a></div>";
     }
 
     return ob_get_clean();
@@ -740,7 +740,7 @@ function dog_list_page_four_sc() {
             $left = 1;
         }
 
-        echo "<a href=\"dog-profile?id=";
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
         echo $dog['animalID'];
         echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
         //echo $dog['animalThumbnailUrl'];
@@ -771,8 +771,8 @@ function dog_list_page_four_sc() {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
     else {
-        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
-        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+        echo "<div style='float:left;'><h2><a href='../adoptable-dogs-3'><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href='../adoptable-dogs-5'><u>Next Page ></u></a></div>";
     }
 
     return ob_get_clean();
@@ -864,7 +864,7 @@ function dog_list_page_five_sc() {
             $left = 1;
         }
 
-        echo "<a href=\"dog-profile?id=";
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
         echo $dog['animalID'];
         echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
         //echo $dog['animalThumbnailUrl'];
@@ -895,8 +895,8 @@ function dog_list_page_five_sc() {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
     else {
-        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
-        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+        echo "<div style='float:left;'><h2><a href='../adoptable-dogs-4'><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href='../adoptable-dogs-6'><u>Next Page ></u></a></div>";
     }
 
     return ob_get_clean();
@@ -988,7 +988,7 @@ function dog_list_page_six_sc() {
             $left = 1;
         }
 
-        echo "<a href=\"dog-profile?id=";
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
         echo $dog['animalID'];
         echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
         //echo $dog['animalThumbnailUrl'];
@@ -1019,7 +1019,7 @@ function dog_list_page_six_sc() {
         echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
     }
     else {
-        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
+        echo "<div style='float:left;'><h2><a href='../adoptable-dogs-5'><u>< Previous Page</u></a></div>";
     }
 
     return ob_get_clean();
