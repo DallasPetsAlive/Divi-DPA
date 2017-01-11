@@ -409,6 +409,625 @@ function dog_list_page_one_sc() {
 add_shortcode('dog_list_page_one', 'dog_list_page_one_sc');
 
 /*
+	The list of dogs.
+*/
+function dog_list_page_two_sc() {
+    if(isset($_POST['doggender']) or isset($_POST['dogsize']) or isset($_POST['dogage'])) {
+        // do page one
+        return dog_list_page_one_sc();
+    }
+
+    ob_start();
+
+    $filters = array(
+        array(
+            "fieldName" => "animalSpecies",
+            "operation" => "equals",
+            "criteria" => "dog",
+        ),
+        array(
+            "fieldName" => "animalStatus",
+            "operation" => "equals",
+            "criteria" => "Available",
+        ),
+    );
+
+    // only get next 20 dogs
+    $data = array(
+        "apikey" => "QltdwQc9",
+        "objectType" => "animals",
+        "objectAction" => "publicSearch",
+        "search" => array(
+            "resultStart" => 20,
+            "resultLimit" => 20,
+            "resultSort" => "animalName",
+            "resultOrder" => "asc",
+            "calcFoundRows" => "Yes",
+            "filters" => $filters,
+            "fields" => array("animalID", "animalName", "animalBreed", "animalSex", "animalThumbnailUrl", "animalGeneralSizePotential", "animalGeneralAge", "animalPictures")
+        ),
+    );
+
+    $jsonData = json_encode($data);
+
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set options, url, etc.
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    //curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $results = curl_error($ch);
+    } else {
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+        $results = $result;
+    }
+
+    $resultsArray = json_decode($results, true);
+
+    $dogsList = $resultsArray['data'];
+
+    $left = 1;
+    $num = 0;
+
+    foreach($dogsList as $dog) {
+        $num = $num + 1;
+        if($left) {
+            echo "<div id=\"pet-search-left\">";
+            $left = 0;
+        } else {
+            echo "<div id=\"pet-search-right\">";
+            $left = 1;
+        }
+
+        echo "<a href=\"dog-profile?id=";
+        echo $dog['animalID'];
+        echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
+        //echo $dog['animalThumbnailUrl'];
+        //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
+        if(count($dog['animalPictures']) > 0) {
+            echo "<img src=\"";
+            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        else {
+            echo "<img src=\"http://dallaspetsalive.org/images/dlogo_120.jpg\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        //
+        echo $dog['animalName'];
+        echo "</h3></a>";
+        echo $dog['animalGeneralAge'];
+        echo " ";
+        echo $dog['animalSex'];
+        echo "<br />";
+        echo $dog['animalGeneralSizePotential'];
+        echo "<br />";
+        echo $dog['animalBreed'];
+        echo "</div></div>
+		";
+    }
+
+    if($num == 0) {
+        echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
+    }
+    else {
+        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('dog_list_page_two', 'dog_list_page_two_sc');
+
+/*
+	The list of dogs.
+*/
+function dog_list_page_three_sc() {
+    if(isset($_POST['doggender']) or isset($_POST['dogsize']) or isset($_POST['dogage'])) {
+        // do page one
+        return dog_list_page_one_sc();
+    }
+
+    ob_start();
+
+    $filters = array(
+        array(
+            "fieldName" => "animalSpecies",
+            "operation" => "equals",
+            "criteria" => "dog",
+        ),
+        array(
+            "fieldName" => "animalStatus",
+            "operation" => "equals",
+            "criteria" => "Available",
+        ),
+    );
+
+    // only get next 20 dogs
+    $data = array(
+        "apikey" => "QltdwQc9",
+        "objectType" => "animals",
+        "objectAction" => "publicSearch",
+        "search" => array(
+            "resultStart" => 40,
+            "resultLimit" => 20,
+            "resultSort" => "animalName",
+            "resultOrder" => "asc",
+            "calcFoundRows" => "Yes",
+            "filters" => $filters,
+            "fields" => array("animalID", "animalName", "animalBreed", "animalSex", "animalThumbnailUrl", "animalGeneralSizePotential", "animalGeneralAge", "animalPictures")
+        ),
+    );
+
+    $jsonData = json_encode($data);
+
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set options, url, etc.
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    //curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $results = curl_error($ch);
+    } else {
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+        $results = $result;
+    }
+
+    $resultsArray = json_decode($results, true);
+
+    $dogsList = $resultsArray['data'];
+
+    $left = 1;
+    $num = 0;
+
+    foreach($dogsList as $dog) {
+        $num = $num + 1;
+        if($left) {
+            echo "<div id=\"pet-search-left\">";
+            $left = 0;
+        } else {
+            echo "<div id=\"pet-search-right\">";
+            $left = 1;
+        }
+
+        echo "<a href=\"dog-profile?id=";
+        echo $dog['animalID'];
+        echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
+        //echo $dog['animalThumbnailUrl'];
+        //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
+        if(count($dog['animalPictures']) > 0) {
+            echo "<img src=\"";
+            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        else {
+            echo "<img src=\"http://dallaspetsalive.org/images/dlogo_120.jpg\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        //
+        echo $dog['animalName'];
+        echo "</h3></a>";
+        echo $dog['animalGeneralAge'];
+        echo " ";
+        echo $dog['animalSex'];
+        echo "<br />";
+        echo $dog['animalGeneralSizePotential'];
+        echo "<br />";
+        echo $dog['animalBreed'];
+        echo "</div></div>
+		";
+    }
+
+    if($num == 0) {
+        echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
+    }
+    else {
+        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('dog_list_page_three', 'dog_list_page_three_sc');
+
+/*
+	The list of dogs.
+*/
+function dog_list_page_four_sc() {
+    if(isset($_POST['doggender']) or isset($_POST['dogsize']) or isset($_POST['dogage'])) {
+        // do page one
+        return dog_list_page_one_sc();
+    }
+
+    ob_start();
+
+    $filters = array(
+        array(
+            "fieldName" => "animalSpecies",
+            "operation" => "equals",
+            "criteria" => "dog",
+        ),
+        array(
+            "fieldName" => "animalStatus",
+            "operation" => "equals",
+            "criteria" => "Available",
+        ),
+    );
+
+    // only get next 20 dogs
+    $data = array(
+        "apikey" => "QltdwQc9",
+        "objectType" => "animals",
+        "objectAction" => "publicSearch",
+        "search" => array(
+            "resultStart" => 60,
+            "resultLimit" => 20,
+            "resultSort" => "animalName",
+            "resultOrder" => "asc",
+            "calcFoundRows" => "Yes",
+            "filters" => $filters,
+            "fields" => array("animalID", "animalName", "animalBreed", "animalSex", "animalThumbnailUrl", "animalGeneralSizePotential", "animalGeneralAge", "animalPictures")
+        ),
+    );
+
+    $jsonData = json_encode($data);
+
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set options, url, etc.
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    //curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $results = curl_error($ch);
+    } else {
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+        $results = $result;
+    }
+
+    $resultsArray = json_decode($results, true);
+
+    $dogsList = $resultsArray['data'];
+
+    $left = 1;
+    $num = 0;
+
+    foreach($dogsList as $dog) {
+        $num = $num + 1;
+        if($left) {
+            echo "<div id=\"pet-search-left\">";
+            $left = 0;
+        } else {
+            echo "<div id=\"pet-search-right\">";
+            $left = 1;
+        }
+
+        echo "<a href=\"dog-profile?id=";
+        echo $dog['animalID'];
+        echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
+        //echo $dog['animalThumbnailUrl'];
+        //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
+        if(count($dog['animalPictures']) > 0) {
+            echo "<img src=\"";
+            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        else {
+            echo "<img src=\"http://dallaspetsalive.org/images/dlogo_120.jpg\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        //
+        echo $dog['animalName'];
+        echo "</h3></a>";
+        echo $dog['animalGeneralAge'];
+        echo " ";
+        echo $dog['animalSex'];
+        echo "<br />";
+        echo $dog['animalGeneralSizePotential'];
+        echo "<br />";
+        echo $dog['animalBreed'];
+        echo "</div></div>
+		";
+    }
+
+    if($num == 0) {
+        echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
+    }
+    else {
+        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('dog_list_page_four', 'dog_list_page_four_sc');
+
+/*
+	The list of dogs.
+*/
+function dog_list_page_five_sc() {
+    if(isset($_POST['doggender']) or isset($_POST['dogsize']) or isset($_POST['dogage'])) {
+        // do page one
+        return dog_list_page_one_sc();
+    }
+
+    ob_start();
+
+    $filters = array(
+        array(
+            "fieldName" => "animalSpecies",
+            "operation" => "equals",
+            "criteria" => "dog",
+        ),
+        array(
+            "fieldName" => "animalStatus",
+            "operation" => "equals",
+            "criteria" => "Available",
+        ),
+    );
+
+    // only get next 20 dogs
+    $data = array(
+        "apikey" => "QltdwQc9",
+        "objectType" => "animals",
+        "objectAction" => "publicSearch",
+        "search" => array(
+            "resultStart" => 80,
+            "resultLimit" => 20,
+            "resultSort" => "animalName",
+            "resultOrder" => "asc",
+            "calcFoundRows" => "Yes",
+            "filters" => $filters,
+            "fields" => array("animalID", "animalName", "animalBreed", "animalSex", "animalThumbnailUrl", "animalGeneralSizePotential", "animalGeneralAge", "animalPictures")
+        ),
+    );
+
+    $jsonData = json_encode($data);
+
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set options, url, etc.
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    //curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $results = curl_error($ch);
+    } else {
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+        $results = $result;
+    }
+
+    $resultsArray = json_decode($results, true);
+
+    $dogsList = $resultsArray['data'];
+
+    $left = 1;
+    $num = 0;
+
+    foreach($dogsList as $dog) {
+        $num = $num + 1;
+        if($left) {
+            echo "<div id=\"pet-search-left\">";
+            $left = 0;
+        } else {
+            echo "<div id=\"pet-search-right\">";
+            $left = 1;
+        }
+
+        echo "<a href=\"dog-profile?id=";
+        echo $dog['animalID'];
+        echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
+        //echo $dog['animalThumbnailUrl'];
+        //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
+        if(count($dog['animalPictures']) > 0) {
+            echo "<img src=\"";
+            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        else {
+            echo "<img src=\"http://dallaspetsalive.org/images/dlogo_120.jpg\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        //
+        echo $dog['animalName'];
+        echo "</h3></a>";
+        echo $dog['animalGeneralAge'];
+        echo " ";
+        echo $dog['animalSex'];
+        echo "<br />";
+        echo $dog['animalGeneralSizePotential'];
+        echo "<br />";
+        echo $dog['animalBreed'];
+        echo "</div></div>
+		";
+    }
+
+    if($num == 0) {
+        echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
+    }
+    else {
+        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
+        echo "<div style='clear:both; float:right;'><h2><a href=''><u>Next Page ></u></a></div>";
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('dog_list_page_five', 'dog_list_page_five_sc');
+
+/*
+	The list of dogs.
+*/
+function dog_list_page_six_sc() {
+    if(isset($_POST['doggender']) or isset($_POST['dogsize']) or isset($_POST['dogage'])) {
+        // do page one
+        return dog_list_page_one_sc();
+    }
+
+    ob_start();
+
+    $filters = array(
+        array(
+            "fieldName" => "animalSpecies",
+            "operation" => "equals",
+            "criteria" => "dog",
+        ),
+        array(
+            "fieldName" => "animalStatus",
+            "operation" => "equals",
+            "criteria" => "Available",
+        ),
+    );
+
+    // get last dogs
+    $data = array(
+        "apikey" => "QltdwQc9",
+        "objectType" => "animals",
+        "objectAction" => "publicSearch",
+        "search" => array(
+            "resultStart" => 100,
+            "resultLimit" => 100,
+            "resultSort" => "animalName",
+            "resultOrder" => "asc",
+            "calcFoundRows" => "Yes",
+            "filters" => $filters,
+            "fields" => array("animalID", "animalName", "animalBreed", "animalSex", "animalThumbnailUrl", "animalGeneralSizePotential", "animalGeneralAge", "animalPictures")
+        ),
+    );
+
+    $jsonData = json_encode($data);
+
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set options, url, etc.
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    //curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $results = curl_error($ch);
+    } else {
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+        $results = $result;
+    }
+
+    $resultsArray = json_decode($results, true);
+
+    $dogsList = $resultsArray['data'];
+
+    $left = 1;
+    $num = 0;
+
+    foreach($dogsList as $dog) {
+        $num = $num + 1;
+        if($left) {
+            echo "<div id=\"pet-search-left\">";
+            $left = 0;
+        } else {
+            echo "<div id=\"pet-search-right\">";
+            $left = 1;
+        }
+
+        echo "<a href=\"dog-profile?id=";
+        echo $dog['animalID'];
+        echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
+        //echo $dog['animalThumbnailUrl'];
+        //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
+        if(count($dog['animalPictures']) > 0) {
+            echo "<img src=\"";
+            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        else {
+            echo "<img src=\"http://dallaspetsalive.org/images/dlogo_120.jpg\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        //
+        echo $dog['animalName'];
+        echo "</h3></a>";
+        echo $dog['animalGeneralAge'];
+        echo " ";
+        echo $dog['animalSex'];
+        echo "<br />";
+        echo $dog['animalGeneralSizePotential'];
+        echo "<br />";
+        echo $dog['animalBreed'];
+        echo "</div></div>
+		";
+    }
+
+    if($num == 0) {
+        echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
+    }
+    else {
+        echo "<div style='float:left;'><h2><a href=''><u>< Previous Page</u></a></div>";
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('dog_list_page_six', 'dog_list_page_six_sc');
+
+/*
 	The dog profile page.
 */
 function dog_profile_sc () {
