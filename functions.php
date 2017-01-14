@@ -369,7 +369,7 @@ function dog_list_page_one_sc() {
             $left = 1;
         }
 
-        echo "<a href=\"dog-profile?id=";
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
         echo $dog['animalID'];
         echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
         //echo $dog['animalThumbnailUrl'];
