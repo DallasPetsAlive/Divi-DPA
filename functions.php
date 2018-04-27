@@ -183,7 +183,7 @@ function dog_list_sc() {
 		//echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
 		if(count($dog['animalPictures']) > 0) {
 			echo "<img src=\"";
-			echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+			echo $dog['animalPictures'][0]['urlSecureFullsize'];
 			echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
 		}
 		else {
@@ -376,7 +376,7 @@ function dog_list_page_one_sc() {
         //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
         if(count($dog['animalPictures']) > 0) {
             echo "<img src=\"";
-            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
             echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
         }
         else {
@@ -499,7 +499,7 @@ function dog_list_page_two_sc() {
         //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
         if(count($dog['animalPictures']) > 0) {
             echo "<img src=\"";
-            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
             echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
         }
         else {
@@ -623,7 +623,7 @@ function dog_list_page_three_sc() {
         //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
         if(count($dog['animalPictures']) > 0) {
             echo "<img src=\"";
-            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
             echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
         }
         else {
@@ -747,7 +747,7 @@ function dog_list_page_four_sc() {
         //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
         if(count($dog['animalPictures']) > 0) {
             echo "<img src=\"";
-            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
             echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
         }
         else {
@@ -871,7 +871,7 @@ function dog_list_page_five_sc() {
         //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
         if(count($dog['animalPictures']) > 0) {
             echo "<img src=\"";
-            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
             echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
         }
         else {
@@ -995,7 +995,7 @@ function dog_list_page_six_sc() {
         //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
         if(count($dog['animalPictures']) > 0) {
             echo "<img src=\"";
-            echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
             echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
         }
         else {
@@ -1027,6 +1027,133 @@ function dog_list_page_six_sc() {
 
 add_shortcode('dog_list_page_six', 'dog_list_page_six_sc');
 
+
+/*
+	The list of dogs.
+*/
+function dog_list_sandbox_sc() {
+    ob_start();
+
+    $filters = array(
+        array(
+            "fieldName" => "animalSpecies",
+            "operation" => "equals",
+            "criteria" => "dog",
+        ),
+        array(
+            "fieldName" => "animalStatus",
+            "operation" => "equals",
+            "criteria" => "Available",
+        ),
+        array(
+            "fieldName" => "animalName",
+            "operation" => "contains",
+            "criteria" => "B",
+        ),
+    );
+
+    // get last dogs
+    $data = array(
+        "apikey" => "QltdwQc9",
+        "objectType" => "animals",
+        "objectAction" => "publicSearch",
+        "search" => array(
+            "resultStart" => 0,
+            "resultLimit" => 100,
+            "resultSort" => "animalName",
+            "resultOrder" => "asc",
+            "calcFoundRows" => "Yes",
+            "filters" => $filters,
+            "fields" => array("animalID", "animalName", "animalBreed", "animalSex", "animalThumbnailUrl", "animalGeneralSizePotential", "animalGeneralAge", "animalPictures")
+        ),
+    );
+
+    $jsonData = json_encode($data);
+
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set options, url, etc.
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_URL, "https://api.rescuegroups.org/http/json");
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    //curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $results = curl_error($ch);
+    } else {
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+        $results = $result;
+    }
+
+    $resultsArray = json_decode($results, true);
+
+    $dogsList = $resultsArray['data'];
+
+    $left = 1;
+    $num = 0;
+
+    foreach($dogsList as $dog) {
+        if(!preg_match("^B", $dog['animalName']))
+            continue;
+        $num = $num + 1;
+        if($left) {
+            echo "<div id=\"pet-search-left\">";
+            $left = 0;
+        } else {
+            echo "<div id=\"pet-search-right\">";
+            $left = 1;
+        }
+
+        echo "<a href=\"../adoptable-dogs/dog-profile?id=";
+        echo $dog['animalID'];
+        echo "\" style=\"text-decoration: underline; color: #006bb7;\">";
+        //echo $dog['animalThumbnailUrl'];
+        //echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
+        if(count($dog['animalPictures']) > 0) {
+            echo "<img src=\"";
+            echo $dog['animalPictures'][0]['urlSecureFullsize'];
+            echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        else {
+            echo "<img src=\"http://dallaspetsalive.org/images/dlogo_120.jpg\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
+        }
+        //
+        echo $dog['animalName'];
+        echo "</h3></a>";
+        echo $dog['animalGeneralAge'];
+        echo " ";
+        echo $dog['animalSex'];
+        echo "<br />";
+        echo $dog['animalGeneralSizePotential'];
+        echo "<br />";
+        echo $dog['animalBreed'];
+        echo "</div></div>
+		";
+    }
+
+    if($num == 0) {
+        echo "<h2>No dogs found that match that criteria! Try a different filter.</h2>";
+    }
+    else {
+        echo "<div style='float:left;'><h2><a href='../adoptable-dogs-5'><u>< Previous Page</u></a></div>";
+    }
+
+    return ob_get_clean();
+}
+
+add_shortcode('dog_list_sandbox', 'dog_list_sandbox_sc');
+
+
 /*
 	The dog profile page.
 */
@@ -1044,7 +1171,7 @@ function dog_profile_sc () {
 		if(count($dog["animalPictures"]) > 0) {
 			// display main photo
 			echo "<div id=\"dog-main-photo\"><img src=\"";
-			echo $dog["animalPictures"][0]["urlInsecureFullsize"];
+			echo $dog["animalPictures"][0]["urlSecureFullsize"];
 			echo "\" style=\"max-height:400px;\" id=\"dog-main-photo-img\"></div>";
 			
 			if(count($dog["animalPictures"]) > 1) {
@@ -1053,9 +1180,9 @@ function dog_profile_sc () {
 				echo "<div id=\"dog-photo-thumbs\">";
 				foreach($dog["animalPictures"] as $dogPhoto) {
 					echo "<img src=\"";
-					echo $dogPhoto["urlInsecureThumbnail"];
+					echo $dogPhoto["urlSecureThumbnail"];
 					echo "\" onclick=\"document.getElementById('dog-main-photo-img').src='";
-					echo $dogPhoto["urlInsecureFullsize"];
+					echo $dogPhoto["urlSecureFullsize"];
 					echo "'\" id=\"dog-thumbnail\">";
 				}
 				echo "</div>";
@@ -1079,7 +1206,7 @@ function dog_profile_sc () {
 		echo " Online Today!</h3>";
 				
 		echo "</div>";
-		echo "<a class=\"et_pb_promo_button\" href=\"adoption-application/?petId=" . $dog["animalName"];
+		echo "<a class=\"et_pb_promo_button\" href=\"https://www.shelterluv.com/matchme/adopt/DPA/Dog";
 		echo "\">Go to Adoption Application</a>";
 		echo "</div><div class=\"et_pb_text et_pb_bg_layout_light et_pb_text_align_left\">";
 
@@ -1315,7 +1442,7 @@ function cat_list_sc() {
 		//echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
 		if(count($cat['animalPictures']) > 0) {
 			echo "<img src=\"";
-			echo $cat['animalPictures'][0]['urlInsecureFullsize'];
+			echo $cat['animalPictures'][0]['urlSecureFullsize'];
 			echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
 		}
 		else {
@@ -1358,7 +1485,7 @@ function cat_profile_sc () {
 		if(count($cat["animalPictures"]) > 0) {
 			// display main photo
 			echo "<div id=\"cat-main-photo\"><img src=\"";
-			echo $cat["animalPictures"][0]["urlInsecureFullsize"];
+			echo $cat["animalPictures"][0]["urlSecureFullsize"];
 			echo "\" style=\"max-height:400px;\" id=\"cat-main-photo-img\"></div>";
 			
 			if(count($cat["animalPictures"]) > 1) {
@@ -1367,9 +1494,9 @@ function cat_profile_sc () {
 				echo "<div id=\"cat-photo-thumbs\">";
 				foreach($cat["animalPictures"] as $catPhoto) {
 					echo "<img src=\"";
-					echo $catPhoto["urlInsecureThumbnail"];
+					echo $catPhoto["urlSecureThumbnail"];
 					echo "\" onclick=\"document.getElementById('cat-main-photo-img').src='";
-					echo $catPhoto["urlInsecureFullsize"];
+					echo $catPhoto["urlSecureFullsize"];
 					echo "'\" id=\"cat-thumbnail\">";
 				}
 				echo "</div>";
@@ -1393,7 +1520,7 @@ function cat_profile_sc () {
 		echo " Online Today!</h3>";
 				
 		echo "</div>";
-		echo "<a class=\"et_pb_promo_button\" href=\"adoption-application/?petId=" . $dog["animalName"];
+		echo "<a class=\"et_pb_promo_button\" href=\"https://www.shelterluv.com/matchme/adopt/DPA/Cat";
 		echo "\">Go to Adoption Application</a>";
 		echo "</div><div class=\"et_pb_text et_pb_bg_layout_light et_pb_text_align_left\">";
 
@@ -1532,7 +1659,7 @@ function dpa_title_cat() {
 		
 		$catName = $cat["animalName"];
 		if(count($cat["animalPictures"]) > 0) {
-			$catThumbnail = $cat["animalPictures"][0]["urlInsecureFullsize"];
+			$catThumbnail = $cat["animalPictures"][0]["urlSecureFullsize"];
 		}
 		else {
 			$catThumbnail = "http://dallaspetsalive.org/images/site_graphics/logo.gif";
@@ -1639,7 +1766,7 @@ function dpa_title() {
 		
 		$dogName = $dog["animalName"];
 		if(count($dog["animalPictures"]) > 0) {
-			$dogThumbnail = $dog["animalPictures"][0]["urlInsecureFullsize"];
+			$dogThumbnail = $dog["animalPictures"][0]["urlSecureFullsize"];
 		}
 		else {
 			$dogThumbnail = "http://dallaspetsalive.org/images/site_graphics/logo.gif";
@@ -1744,7 +1871,7 @@ function cheat_sheet_sc() {
 		//echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
 		if(count($dog['animalPictures']) > 0) {
 			echo "<img src=\"";
-			echo $dog['animalPictures'][0]["urlInsecureThumbnail"];
+			echo $dog['animalPictures'][0]["urlSecureThumbnail"];
 			echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
 		}
 		else {
@@ -1787,6 +1914,20 @@ function cheat_sheet_sc() {
 }
 
 add_shortcode('cheat_sheet', 'cheat_sheet_sc');
+
+/**
+ * Get the boolean value of a variable
+ *
+ * @param 	mixed 	The scalar value being converted to a boolean.
+ * @return 	boolean The boolean value of var.
+ * @refer	http://php.net/manual/en/function.boolval.php#114013
+ */
+if( !function_exists('boolval')) {
+    
+    function boolval($var){
+        return !! $var;
+    }
+}
 
 /*
 function back_in_black_sc() {
@@ -1879,7 +2020,7 @@ function back_in_black_sc() {
 		//echo "\" style=\"float: left; margin-right: 10px;\" /><div style=\"margin-left:110px;\"><h3>";
 		if(count($dog['animalPictures']) > 0) {
 			echo "<img src=\"";
-			echo $dog['animalPictures'][0]['urlInsecureFullsize'];
+			echo $dog['animalPictures'][0]['urlSecureFullsize'];
 			echo "\" style=\"float: left; margin-right: 10px; width:120px;\" /><div style=\"margin-left:130px;\"><h3>";
 		}
 		else {
