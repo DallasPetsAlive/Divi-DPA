@@ -9,7 +9,7 @@ global $dogId;
 function dpa_shelterluv_rewrite_rule()
 {
 	add_rewrite_rule(
-		'^animal/DPA-A-([^/]*)/?',
+		'^pet/([^/]*)/?',
 		'index.php?page_id=30&animalId=$matches[1]',
 		'top'
 	);
@@ -23,7 +23,7 @@ add_action('init', 'dpa_shelterluv_rewrite_tag', 10, 0);
 
 function shelterluv_dog_list() {
     ob_start();
-    readfile("wp-content/themes/Divi-DPA/dog_list.html");
+    readfile("wp-content/themes/Divi-DPA/pet_data/listings/dog_list.php");
     return ob_get_clean();
 }
 
@@ -35,7 +35,7 @@ function shelterluv_animal_profile() {
 	global $wp_query;
 	if($wp_query->query_vars['animalId'] != "") {
 		$animalId = $wp_query->query_vars['animalId'];
-		$filename = "wp-content/themes/Divi-DPA/" . $animalId . ".html";
+		$filename = "wp-content/themes/Divi-DPA/pet_data/profiles/" . $animalId . ".php";
 		readfile($filename);
 	}
 	else

@@ -7,6 +7,25 @@
 
 @import url("../Divi/style.css");
 
+/* ShelterLuv page changes */
+.pet-list {
+    width: 100%;
+}
+
+.pet-list-pet {
+    width: 25%;
+    height: auto;
+    float: left;
+}
+
+.pet-list-image {
+    text-align: center;
+}
+.pet-list-name {
+    text-align: center;
+    font-size: 20px;
+}
+
 a { text-decoration: none; color: #006cb7; }
 
 .newsfixblog {margin-left: auto;
