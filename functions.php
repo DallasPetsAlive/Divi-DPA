@@ -5,6 +5,56 @@ global $dogId;
 //update_option('siteurl','http://dallasnokill.org');
 //update_option('home','http://dallasnokill.org');
 
+
+function dpa_shelterluv_rewrite_rule()
+{
+	add_rewrite_rule(
+		'^animal/DPA-A-([^/]*)/?',
+		'index.php?page_id=30&animalId=$matches[1]',
+		'top'
+	);
+}
+add_action('init', 'dpa_shelterluv_rewrite_rule', 10, 0);
+
+function dpa_shelterluv_rewrite_tag() {
+	add_rewrite_tag('%animalId%', '([^&]+)');
+}
+add_action('init', 'dpa_shelterluv_rewrite_tag', 10, 0);
+
+function shelterluv_dog_list() {
+    ob_start();
+    readfile("wp-content/themes/Divi-DPA/dog_list.html");
+    return ob_get_clean();
+}
+
+add_shortcode('sl_dog_list', 'shelterluv_dog_list');
+
+function shelterluv_animal_profile() {
+	ob_start();
+
+	global $wp_query;
+	if($wp_query->query_vars['animalId'] != "") {
+		$animalId = $wp_query->query_vars['animalId'];
+		$filename = "wp-content/themes/Divi-DPA/" . $animalId . ".html";
+		readfile($filename);
+	}
+	else
+	    echo "no id";
+
+	/*global $animalId;
+
+	if(isset($_GET['id'])) {
+		$animalId = $_GET['id'];
+		$filename = "wp-content/themes/Divi-DPA/animals/" . $animalId . ".html";
+		readfile( $filename );
+	} else {
+	    readfile("wp-content/themes/Divi-DPA/animal_profile_error.html");
+    }*/
+	return ob_get_clean();
+}
+
+add_shortcode('sl_animal_profile', 'shelterluv_animal_profile');
+
 function lorem_function() {
   return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nulla vitae lacus mattis volutpat eu at sapien. Nunc interdum congue libero, quis laoreet elit sagittis ut. Pellentesque lacus erat, dictum condimentum pharetra vel, malesuada volutpat risus. Nunc sit amet risus dolor. Etiam posuere tellus nisl. Integer lorem ligula, tempor eu laoreet ac, eleifend quis diam. Proin cursus, nibh eu vehicula varius, lacus elit eleifend elit, eget commodo ante felis at neque. Integer sit amet justo sed elit porta convallis a at metus. Suspendisse molestie turpis pulvinar nisl tincidunt quis fringilla enim lobortis. Curabitur placerat quam ac sem venenatis blandit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam sed ligula nisl. Nam ullamcorper elit id magna hendrerit sit amet dignissim elit sodales. Aenean accumsan consectetur rutrum.';
 }
