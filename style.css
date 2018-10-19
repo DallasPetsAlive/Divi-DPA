@@ -10,20 +10,44 @@
 /* ShelterLuv page changes */
 .pet-list {
     width: 100%;
+	padding-left: 60px;
 }
 
 .pet-list-pet {
-    width: 25%;
-    height: auto;
+    width: 180px;
+    height: 210px;
     float: left;
+	padding: 10px;
 }
 
 .pet-list-image {
+	padding: 10px;
     text-align: center;
 }
+
 .pet-list-name {
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
+}
+
+@media only screen and ( min-width: 981px ) and ( max-width: 1100px ) {
+    .pet-list-pet { width: 200px; height: 230px; }
+	.pet-list { padding-left: 50px; }
+}
+
+@media only screen and ( min-width: 768px ) and ( max-width: 980px ) {
+    .pet-list-pet { width: 210px; height: 230px; }
+	.pet-list { padding-left: 10px; }
+}
+
+@media only screen and ( max-width: 767px ) {
+    .pet-list-pet { width: 180px; height: 210px; }
+	.pet-list { padding-left: 10px; }
+}
+
+@media only screen and ( max-width: 479px ) {
+    .pet-list-pet { width: 100%; height: auto; }
+	.pet-list { padding-left: 0px; }
 }
 
 a { text-decoration: none; color: #006cb7; }

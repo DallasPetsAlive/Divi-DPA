@@ -23,7 +23,7 @@ add_action('init', 'dpa_shelterluv_rewrite_tag', 10, 0);
 
 function shelterluv_dog_list() {
     ob_start();
-    readfile("wp-content/themes/Divi-DPA/pet_data/listings/dog_list.php");
+    readfile("wp-content/themes/Divi-child/pet_data/listings/dog_list.php");
     return ob_get_clean();
 }
 
@@ -35,7 +35,7 @@ function shelterluv_animal_profile() {
 	global $wp_query;
 	if($wp_query->query_vars['animalId'] != "") {
 		$animalId = $wp_query->query_vars['animalId'];
-		$filename = "wp-content/themes/Divi-DPA/pet_data/profiles/" . $animalId . ".php";
+		$filename = "wp-content/themes/Divi-child/pet_data/profiles/" . $animalId . ".php";
 		readfile($filename);
 	}
 	else
@@ -45,10 +45,10 @@ function shelterluv_animal_profile() {
 
 	if(isset($_GET['id'])) {
 		$animalId = $_GET['id'];
-		$filename = "wp-content/themes/Divi-DPA/animals/" . $animalId . ".html";
+		$filename = "wp-content/themes/Divi-child/animals/" . $animalId . ".html";
 		readfile( $filename );
 	} else {
-	    readfile("wp-content/themes/Divi-DPA/animal_profile_error.html");
+	    readfile("wp-content/themes/Divi-child/animal_profile_error.html");
     }*/
 	return ob_get_clean();
 }
