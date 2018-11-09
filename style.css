@@ -30,24 +30,142 @@
     font-size: 16px;
 }
 
+.pet-profile {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.pet-profile-images {
+	width: 600px;
+	float: left;
+}
+
+.pet-profile-data {
+	margin-left: 50px;
+	margin-top: 20px;
+	width: 380px;
+	float: left;
+}
+
+.pet-profile-name {
+	font-size: 50px;
+	height: 60px;
+}
+
+.pet-profile-other-data {
+	margin-top: 40px;
+	margin-left: 3px;
+	font-size: 20px;
+	line-height: 200%;
+}
+
+.pet-profile-top-adopt-button {
+	font-weight: 300;
+	font-size: 20px;
+	line-height: 20px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 14px 20px;
+	display: inline-block;
+	text-shadow: none;
+	text-decoration: none;
+	background-color: #5bb376;
+	color: #fff;
+	text-align: center;
+	font-family: Raleway, Arial, sans-serif;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-image-outset: 0px;
+	border-image-repeat: stretch;
+	border-image-slice: 100%;
+	border-image-source: none;
+	border-image-width: 1;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	margin-top: 80px;
+	border: 0px none #ffffff;
+}
+
+.pet-profile-description {
+	width: 100%;
+	float: left;
+	margin-top: 20px;
+}
+
+.pet-profile-description-title {
+	font-size: 40px;
+	line-height: 1.2;
+}
+
+.pet-profile-adopt-bottom {
+	width: 600px;
+	margin-left: 150px;
+	margin-top: 30px;
+}
+
 @media only screen and ( min-width: 981px ) and ( max-width: 1100px ) {
     .pet-list-pet { width: 200px; height: 230px; }
 	.pet-list { padding-left: 50px; }
+
+	.pet-profile-images { width: 450px; }
+	.pet-profile-data { width: 400px; }
+	.pet-profile-adopt-bottom { margin-left: 80px; }
 }
 
 @media only screen and ( min-width: 768px ) and ( max-width: 980px ) {
     .pet-list-pet { width: 210px; height: 230px; }
 	.pet-list { padding-left: 10px; }
+
+	.pet-profile-images { width: 350px; }
+	.pet-profile-data { width: 250px; }
+	.pet-profile-top-adopt-button { visibility: hidden; }
+	.pet-profile-description {
+		margin-top: -90px;}
+	.pet-profile-adopt-bottom {
+		width: 400px;
+		margin-left: 50px; }
 }
 
 @media only screen and ( max-width: 767px ) {
     .pet-list-pet { width: 180px; height: 210px; }
 	.pet-list { padding-left: 10px; }
+
+	.pet-profile-images { width: 100%; }
+	.pet-profile-data {
+		margin-left: 0px;
+		width: 100%; }
+	.pet-profile-other-data {
+		margin-top: 0px;
+	}
+	.pet-profile-top-adopt-button { visibility: hidden; }
+	.pet-profile-description-title { height: 100%; }
+	.pet-profile-description {
+		margin-top: -90px;
+		width: 100%; }
+	.pet-profile-adopt-bottom {
+		width: 70%;
+		margin-left: 10px; }
 }
 
 @media only screen and ( max-width: 479px ) {
     .pet-list-pet { width: 100%; height: auto; }
 	.pet-list { padding-left: 0px; }
+
+	.pet-profile-images { width: 100%; }
+	.pet-profile-data {
+		margin-left: 0px;
+		width: 100%; }
+	.pet-profile-other-data {
+		margin-top: 0px;
+	}
+	.pet-profile-top-adopt-button { visibility: hidden; }
+	.pet-profile-description-title { visibility: hidden; }
+	.pet-profile-description {
+		margin-top: -160px;
+		width: 100%; }
+	.pet-profile-adopt-bottom {
+		width: 70%;
+		margin-left: 10px; }
 }
 
 a { text-decoration: none; color: #006cb7; }
