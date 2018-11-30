@@ -8,6 +8,8 @@ global $dogId;
 
 function dpa_shelterluv_rewrite_rule()
 {
+    // page id 9840 for dev
+    // 30 for local
 	add_rewrite_rule(
 		'^pet/([^/]*)/?',
 		'index.php?page_id=30&animalId=$matches[1]',
@@ -29,6 +31,22 @@ function shelterluv_dog_list() {
 
 add_shortcode('sl_dog_list', 'shelterluv_dog_list');
 
+function shelterluv_cat_list() {
+	ob_start();
+	readfile("wp-content/themes/Divi-child/pet_data/listings/cat_list.php");
+	return ob_get_clean();
+}
+
+add_shortcode('sl_cat_list', 'shelterluv_cat_list');
+
+function shelterluv_other_list() {
+	ob_start();
+	readfile("wp-content/themes/Divi-child/pet_data/listings/other_list.php");
+	return ob_get_clean();
+}
+
+add_shortcode('sl_other_list', 'shelterluv_other_list');
+
 function shelterluv_animal_profile() {
 	ob_start();
 
@@ -39,7 +57,8 @@ function shelterluv_animal_profile() {
 		readfile($filename);
 	}
 	else
-	    echo "no id";
+	    echo "no ID found";
+
 
 	/*global $animalId;
 
