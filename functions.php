@@ -6,6 +6,26 @@ global $dogId;
 //update_option('home','http://dallasnokill.org');
 
 
+function change_pet_title($title) {
+	global $wp_query;
+	if (get_the_ID() == 9840) {
+        $petName = null;
+		if($wp_query->query_vars['animalId'] != "") {
+			$animalId = $wp_query->query_vars['animalId'];
+			$filename = "wp-content/themes/Divi-child/pet_data/profiles/" . $animalId . ".php";
+			$regexp = "/(?:Meet )(.+)(?=!)/";
+			if(preg_match_all($regexp, file_get_contents($filename), $keys)) {
+				$keys = array_unique( $keys );
+				$petName = $keys[0][0];
+				$petName = substr($petName, 5);
+			}
+		}
+		return $petName . " | Dallas Pets Alive!";
+	}
+	return $title;
+}
+add_filter('wp_title', 'change_pet_title');
+
 function dpa_shelterluv_rewrite_rule()
 {
     // page id 9840 for dev
@@ -50,6 +70,8 @@ add_shortcode('sl_other_list', 'shelterluv_other_list');
 function shelterluv_animal_profile() {
 	ob_start();
 
+	$filename = null;
+
 	global $wp_query;
 	if($wp_query->query_vars['animalId'] != "") {
 		$animalId = $wp_query->query_vars['animalId'];
@@ -60,15 +82,6 @@ function shelterluv_animal_profile() {
 	    echo "no ID found";
 
 
-	/*global $animalId;
-
-	if(isset($_GET['id'])) {
-		$animalId = $_GET['id'];
-		$filename = "wp-content/themes/Divi-child/animals/" . $animalId . ".html";
-		readfile( $filename );
-	} else {
-	    readfile("wp-content/themes/Divi-child/animal_profile_error.html");
-    }*/
 	return ob_get_clean();
 }
 
