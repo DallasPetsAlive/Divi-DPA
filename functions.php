@@ -8,6 +8,7 @@ global $dogId;
 
 function change_pet_title($title) {
 	global $wp_query;
+	// 9840 for dev, 30 for local
 	if (get_the_ID() == 9840) {
         $petName = null;
 		if($wp_query->query_vars['animalId'] != "") {
