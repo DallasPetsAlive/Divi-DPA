@@ -2,3 +2,6 @@ pet_data/profiles/*
 pet_data/listings/dog_list.php
 pet_data/animals.json
 pet_data/listings/dog_list.php
+pet_data/listings/cat_list.php
+pet_data/listings/dog_list.php
+pet_data/listings/other_list.php
