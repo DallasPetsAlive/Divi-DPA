@@ -8,8 +8,8 @@ global $dogId;
 
 function change_pet_title($title) {
 	global $wp_query;
-	// 9840 for dev, 30 for local
-	if (get_the_ID() == 9840) {
+	// 9840 for dev, 30 for local, 13266 for prod
+	if (get_the_ID() == 13266) {
         $petName = null;
 		if($wp_query->query_vars['animalId'] != "") {
 			$animalId = $wp_query->query_vars['animalId'];
@@ -31,9 +31,10 @@ function dpa_shelterluv_rewrite_rule()
 {
     // page id 9840 for dev
     // 30 for local
+    // 13266 for prod
 	add_rewrite_rule(
 		'^pet/([^/]*)/?',
-		'index.php?page_id=30&animalId=$matches[1]',
+		'index.php?page_id=13266&animalId=$matches[1]',
 		'top'
 	);
 }
@@ -77,7 +78,10 @@ function shelterluv_animal_profile() {
 	if($wp_query->query_vars['animalId'] != "") {
 		$animalId = $wp_query->query_vars['animalId'];
 		$filename = "wp-content/themes/Divi-child/pet_data/profiles/" . $animalId . ".php";
-		readfile($filename);
+		if(file_exists($filename))
+		    readfile($filename);
+		else
+		    echo "That pet was not found. <a href=\"https://dallaspetsalive.org\">Return to the homepage.</a>";
 	}
 	else
 	    echo "no ID found";
