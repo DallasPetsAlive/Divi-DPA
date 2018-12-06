@@ -5,7 +5,6 @@ global $dogId;
 //update_option('siteurl','http://dallasnokill.org');
 //update_option('home','http://dallasnokill.org');
 
-
 function change_pet_title($title) {
 	global $wp_query;
 	// 9840 for dev, 30 for local, 13266 for prod
