@@ -5,10 +5,12 @@ global $dogId;
 //update_option('siteurl','http://dallasnokill.org');
 //update_option('home','http://dallasnokill.org');
 
+// 9840 for dev, 30 for local, 13266 for prod
+define("PET_PAGE_ID", 13266);
+
 function change_pet_title($title) {
 	global $wp_query;
-	// 9840 for dev, 30 for local, 13266 for prod
-	if (get_the_ID() == 13266) {
+	if (get_the_ID() == PET_PAGE_ID) {
         $petName = null;
 		if($wp_query->query_vars['animalId'] != "") {
 			$animalId = $wp_query->query_vars['animalId'];
@@ -24,16 +26,42 @@ function change_pet_title($title) {
 	}
 	return $title;
 }
-add_filter('wp_title', 'change_pet_title');
+add_filter('wpseo_title', 'change_pet_title');
+
+function change_pet_description($desc) {
+    if (get_the_ID() == PET_PAGE_ID) {
+        global $wp_query;
+	    $petName = null;
+	    if($wp_query->query_vars['animalId'] != "") {
+		    $animalId = $wp_query->query_vars['animalId'];
+		    $filename = "wp-content/themes/Divi-child/pet_data/profiles/" . $animalId . ".php";
+		    $regexp = "/(?:Meet )(.+)(?=!)/";
+		    if(preg_match_all($regexp, file_get_contents($filename), $keys)) {
+			    $keys = array_unique( $keys );
+			    $petName = $keys[0][0];
+			    $petName = substr($petName, 5);
+		    }
+	    }
+
+	    return $petName . ' is looking for their forever home. Check them out at Dallas Pets Alive!';
+    }
+    return $desc;
+}
+add_filter('wpseo_metadesc', 'change_pet_description');
+
+function change_canonical( $url ) {
+	if (get_the_ID() == PET_PAGE_ID) {
+		return false;
+	}
+	return $url;
+}
+add_filter( 'wpseo_canonical', 'change_canonical' );
 
 function dpa_shelterluv_rewrite_rule()
 {
-    // page id 9840 for dev
-    // 30 for local
-    // 13266 for prod
 	add_rewrite_rule(
 		'^pet/([^/]*)/?',
-		'index.php?page_id=13266&animalId=$matches[1]',
+		'index.php?page_id='. PET_PAGE_ID . '&animalId=$matches[1]',
 		'top'
 	);
 }
@@ -1772,16 +1800,16 @@ function dpa_title_cat() {
 	**********/
 
 function og_dpa () {
-	echo '<meta property="fb:admins" content="ktbird"/>';
-	echo '<meta property="og:title" content="' . get_the_title() . '"/>';
-	echo '<meta property="og:type" content="website"/>';
-	echo '<meta property="og:url" content="' . get_permalink() . '"/>';
-	echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
+	//echo '<meta property="fb:admins" content="ktbird"/>';
+	//echo '<meta property="og:title" content="' . get_the_title() . '"/>';
+	//echo '<meta property="og:type" content="website"/>';
+	//echo '<meta property="og:url" content="' . get_permalink() . '"/>';
+	//echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
 	//echo '<meta property="og:image" content="' . $dogThumbnail . '"/>';
 }
 
 function dpa_title() {
-	global $dogId;
+	/*global $dogId;
 
 	if(isset($_GET['id'])) {
 		$dogId = $_GET['id'];
@@ -1871,7 +1899,7 @@ function dpa_title() {
         echo '<meta property="og:site_name" content="Dallas Pets Alive"/>';
         echo '<meta property="og:image" content="' . $dogThumbnail . '"/>';
 		echo '<meta property="og:description" content="' . $dogName . ' is available for adoption from Dallas Pets Alive! Click to find out more.' . '"/>';
-	}
+	}*/
 }
 
 /*
