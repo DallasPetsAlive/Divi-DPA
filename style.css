@@ -7,6 +7,19 @@
 
 @import url("../Divi/style.css");
 
+.sort-filter-options-parent {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.sort-filter-options {
+	display:inline-block;
+}
+
+.hidden {
+	font-size:0;
+}
+
 /* ShelterLuv page changes */
 .pet-list {
 	display: flex;
