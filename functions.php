@@ -5,6 +5,13 @@ global $dogId;
 //update_option('siteurl','http://dallasnokill.org');
 //update_option('home','http://dallasnokill.org');
 
+/* force CSS update for style */
+function add_require_scripts_files() {
+    wp_enqueue_style('divi-style', get_stylesheet_directory_uri().'/style.css', array(),
+        filemtime( get_stylesheet_directory() . '/style.css' ), "all");
+}
+add_action( 'wp_enqueue_scripts', 'add_require_scripts_files' );
+
 // 9840 for dev, 30 for local, 13266 for prod
 define("PET_PAGE_ID", 13266);
 
