@@ -18,22 +18,20 @@ define("PET_PAGE_ID", 13266);
 function change_pet_title($title) {
 	global $wp_query;
 	if (get_the_ID() == PET_PAGE_ID) {
-        $petName = null;
 		if($wp_query->query_vars['animalId'] != "") {
 			$animalId = $wp_query->query_vars['animalId'];
-			$filename = "wp-content/themes/Divi-child/pet_data/profiles/" . $animalId . ".php";
-			$regexp = "/(?:Meet )(.+)(?=!)/";
-			if(preg_match_all($regexp, file_get_contents($filename), $keys)) {
-				$keys = array_unique( $keys );
-				$petName = $keys[0][0];
-				$petName = substr($petName, 5);
+			$animalFile = "wp-content/themes/Divi-child/pet_data/animals.json";
+			$animals = json_decode(file_get_contents($animalFile));
+			
+			if($animals->$animalId) {
+				$petName = $animals->$animalId->{"Name"};
+				return $petName . " | Dallas Pets Alive!";
 			}
 		}
-		return $petName . " | Dallas Pets Alive!";
 	}
 	return $title;
 }
-add_filter('wpseo_title', 'change_pet_title');
+add_filter( 'pre_get_document_title', 'change_pet_title', 999, 1 );
 
 function change_pet_description($desc) {
     if (get_the_ID() == PET_PAGE_ID) {
