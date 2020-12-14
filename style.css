@@ -7,6 +7,22 @@
 
 @import url("../Divi/style.css");
 
+#dpa-footer {
+	margin-top: 20px;
+}
+
+#dpa-footer-text {
+	text-align: center;
+	font-style: italic;
+	padding: 20px 0px;
+	color: #a9a9a9;
+}
+
+#dpa-footer-hr {
+	margin: 0;
+	border-top: lightgrey;
+}
+
 #et_top_search {
 	visibility: hidden;
 	width: 0px;
