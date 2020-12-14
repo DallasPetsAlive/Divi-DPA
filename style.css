@@ -118,8 +118,7 @@
 
 .pet-profile-adopt-bottom {
 	width: 600px;
-	margin-left: 150px;
-	margin-top: 30px;
+	margin: 30px auto 0px auto;
 }
 
 @media only screen and ( min-width: 981px ) and ( max-width: 1100px ) {
@@ -128,7 +127,6 @@
 
 	.pet-profile-images { width: 450px; }
 	.pet-profile-data { width: 400px; }
-	.pet-profile-adopt-bottom { margin-left: 80px; }
 }
 
 @media only screen and ( min-width: 768px ) and ( max-width: 980px ) {
@@ -141,8 +139,7 @@
 	.pet-profile-description {
 		margin-top: -90px;}
 	.pet-profile-adopt-bottom {
-		width: 400px;
-		margin-left: 50px; }
+		width: 400px;}
 }
 
 @media only screen and ( max-width: 767px ) {
@@ -162,8 +159,7 @@
 		margin-top: -90px;
 		width: 100%; }
 	.pet-profile-adopt-bottom {
-		width: 70%;
-		margin-left: 10px; }
+		width: 100%;}
 }
 
 @media only screen and ( max-width: 479px ) {
@@ -184,8 +180,7 @@
 		margin-top: -160px;
 		width: 100%; }
 	.pet-profile-adopt-bottom {
-		width: 70%;
-		margin-left: 10px; }
+		width: 100%;}
 }
 
 a { text-decoration: none; color: #006cb7; }
@@ -205,7 +200,12 @@ left: 30px;
 
 .et_pb_bg_layout_light .et_pb_newsletter_button{ color: #fff; background-color:#006cb7; }
 
-.et_pb_bg_layout_light .et_pb_promo_button, .et_pb_bg_layout_light .et_pb_more_button { background-color: #5bb376; color: #fff;}
+.et_pb_promo_button {
+	background-color: #5bb376; 
+	color: #fff !important;
+	padding: 10px;
+	border-radius: 4px;
+}
 
 .nav li ul { z-index: 9999; width: 200px; background: #fff; visibility: hidden; opacity: 0; border-top: 3px solid #006cb7; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
 
