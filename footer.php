@@ -22,8 +22,7 @@ if ( 'on' === et_get_option( 'divi_back_to_top', 'false' ) ) : ?>
 if ( ! is_page_template( 'page-template-blank.php' ) ) : ?>
 
             <footer id="dpa-footer">
-                <div class="container">
-                    <hr id="dpa-footer-hr" />
+                <div class="container dpa-footer-container">
                     <div id="dpa-footer-text">
                         Dallas Pets Alive! is an exempt organization as described in Section 501(c)(3) of the Internal Revenue Code, EIN 46-2768869
                     </div>

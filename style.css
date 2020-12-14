@@ -23,6 +23,10 @@
 	border-top: lightgrey;
 }
 
+.dpa-footer-container {
+	border-top: 1px solid lightgrey;
+}
+
 #et_top_search {
 	visibility: hidden;
 	width: 0px;
