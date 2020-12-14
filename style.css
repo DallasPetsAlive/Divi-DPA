@@ -54,14 +54,14 @@
 }
 
 .pet-profile-images {
-	width: 600px;
+	width: 60%;
 	float: left;
 }
 
 .pet-profile-data {
 	margin-left: 50px;
 	margin-top: 20px;
-	width: 380px;
+	width: auto;
 	float: left;
 }
 
@@ -125,16 +125,16 @@
     /*.pet-list-pet { width: 200px; height: 230px; }
 	.pet-list { padding-left: 35px; }*/
 
-	.pet-profile-images { width: 450px; }
-	.pet-profile-data { width: 400px; }
+	.pet-profile-images { width: 60%; }
+	.pet-profile-data { width: auto; }
 }
 
 @media only screen and ( min-width: 768px ) and ( max-width: 980px ) {
     /*.pet-list-pet { width: 210px; height: 230px; }
 	.pet-list { padding-left: 0px; }*/
 
-	.pet-profile-images { width: 350px; }
-	.pet-profile-data { width: 250px; }
+	.pet-profile-images { width: 100%; }
+	.pet-profile-data { width: 100%; margin-left: 0px;}
 	.pet-profile-top-adopt-button { visibility: hidden; }
 	.pet-profile-description {
 		margin-top: -90px;}
