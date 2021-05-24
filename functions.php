@@ -101,6 +101,14 @@ function shelterluv_other_list() {
 
 add_shortcode('sl_other_list', 'shelterluv_other_list');
 
+function shelterluv_new_digs_list() {
+	ob_start();
+	readfile("wp-content/themes/Divi-child/pet_data/listings/new_digs_list.php");
+	return ob_get_clean();
+}
+
+add_shortcode('sl_new_digs_list', 'shelterluv_new_digs_list');
+
 function shelterluv_animal_profile() {
 	ob_start();
 
