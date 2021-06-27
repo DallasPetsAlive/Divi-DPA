@@ -52,10 +52,19 @@
 	justify-content: space-around;
 }
 
+.pet-list-homepage {
+	justify-content: center;
+}
+
 .pet-list-pet {
 	width: 180px;
 	height: 210px;
 	margin: 0 0 30px 0;
+}
+
+.pet-list-pet-homepage {
+	width: 270px;
+	height: 315px;
 }
 
 .flex-break {
