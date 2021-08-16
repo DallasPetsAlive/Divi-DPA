@@ -14,6 +14,7 @@ add_action( 'wp_enqueue_scripts', 'add_require_scripts_files' );
 
 // 9840 for dev, 30 for local, 13266 for prod
 define("PET_PAGE_ID", 13266);
+define("NEW_DIGS_PET_PAGE_ID", 50);
 
 function change_pet_title($title) {
 	global $wp_query;
@@ -26,6 +27,28 @@ function change_pet_title($title) {
 			if($animals->$animalId) {
 				$petName = $animals->$animalId->{"Name"};
 				return $petName . " | Dallas Pets Alive!";
+			}
+		}
+	} elseif (get_the_id() == NEW_DIGS_PET_PAGE_ID) {
+		if($wp_query->query_vars['animalId'] != "") {
+			$animalId = $wp_query->query_vars['animalId'];
+			$animalFile = "wp-content/themes/Divi-child/pet_data/new_digs_animals.json";
+			$animals = json_decode(file_get_contents($animalFile));
+			$records = $animals->records;
+
+			foreach($records as $animal) {
+				$fields = $animal->fields;
+				$petIdField = "Pet ID - do not edit";
+				if(property_exists($fields, $petIdField)) {
+					$petId = $fields->$petIdField;
+					if($petId == $animalId) {
+						$petNameField = "Pet Name";
+						if(property_exists($fields, $petNameField)) {
+							$petName = $fields->$petNameField;
+							return $petName . " | Dallas Pets Alive!";
+						}
+					}
+				}
 			}
 		}
 	}
@@ -49,13 +72,28 @@ function change_pet_description($desc) {
 	    }
 
 	    return $petName . ' is looking for their forever home. Check them out at Dallas Pets Alive!';
-    }
+    } elseif (get_the_id() == NEW_DIGS_PET_PAGE_ID) {
+		global $wp_query;
+	    $petName = null;
+	    if($wp_query->query_vars['animalId'] != "") {
+		    $animalId = $wp_query->query_vars['animalId'];
+		    $filename = "wp-content/themes/Divi-child/pet_data/new_digs_profiles/" . $animalId . ".php";
+		    $regexp = "/(?:Meet )(.+)(?=!)/";
+		    if(preg_match_all($regexp, file_get_contents($filename), $keys)) {
+			    $keys = array_unique( $keys );
+			    $petName = $keys[0][0];
+			    $petName = substr($petName, 5);
+		    }
+	    }
+
+	    return $petName . ' is looking for their forever home. Check them out at Dallas Pets Alive!';
+	}
     return $desc;
 }
 add_filter('wpseo_metadesc', 'change_pet_description');
 
 function change_canonical( $url ) {
-	if (get_the_ID() == PET_PAGE_ID) {
+	if (get_the_ID() == PET_PAGE_ID or get_the_ID() == NEW_DIGS_PET_PAGE_ID) {
 		return false;
 	}
 	return $url;
@@ -67,6 +105,11 @@ function dpa_shelterluv_rewrite_rule()
 	add_rewrite_rule(
 		'^pet/([^/]*)/?',
 		'index.php?page_id='. PET_PAGE_ID . '&animalId=$matches[1]',
+		'top'
+	);
+	add_rewrite_rule(
+		'^new_digs_pet/([^/]*)/?',
+		'index.php?page_id='. NEW_DIGS_PET_PAGE_ID . '&animalId=$matches[1]',
 		'top'
 	);
 }
@@ -109,6 +152,22 @@ function shelterluv_homepage_list() {
 
 add_shortcode('sl_homepage_list', 'shelterluv_homepage_list');
 
+function new_digs_cat_list() {
+	ob_start();
+	readfile("wp-content/themes/Divi-child/pet_data/listings/new_digs_cat_list.php");
+	return ob_get_clean();
+}
+
+add_shortcode('nd_cat_list', 'new_digs_cat_list');
+
+function new_digs_dog_list() {
+	ob_start();
+	readfile("wp-content/themes/Divi-child/pet_data/listings/new_digs_dog_list.php");
+	return ob_get_clean();
+}
+
+add_shortcode('nd_dog_list', 'new_digs_dog_list');
+
 function shelterluv_animal_profile() {
 	ob_start();
 
@@ -131,6 +190,29 @@ function shelterluv_animal_profile() {
 }
 
 add_shortcode('sl_animal_profile', 'shelterluv_animal_profile');
+
+function new_digs_animal_profile() {
+	ob_start();
+
+	$filename = null;
+
+	global $wp_query;
+	if($wp_query->query_vars['animalId'] != "") {
+		$animalId = $wp_query->query_vars['animalId'];
+		$filename = "wp-content/themes/Divi-child/pet_data/new_digs_profiles/" . $animalId . ".php";
+		if(file_exists($filename))
+		    readfile($filename);
+		else
+		    echo "That pet was not found. <a href=\"https://dallaspetsalive.org\">Return to the homepage.</a>";
+	}
+	else
+	    echo "no ID found";
+
+
+	return ob_get_clean();
+}
+
+add_shortcode('nd_animal_profile', 'new_digs_animal_profile');
 
 function lorem_function() {
   return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nulla vitae lacus mattis volutpat eu at sapien. Nunc interdum congue libero, quis laoreet elit sagittis ut. Pellentesque lacus erat, dictum condimentum pharetra vel, malesuada volutpat risus. Nunc sit amet risus dolor. Etiam posuere tellus nisl. Integer lorem ligula, tempor eu laoreet ac, eleifend quis diam. Proin cursus, nibh eu vehicula varius, lacus elit eleifend elit, eget commodo ante felis at neque. Integer sit amet justo sed elit porta convallis a at metus. Suspendisse molestie turpis pulvinar nisl tincidunt quis fringilla enim lobortis. Curabitur placerat quam ac sem venenatis blandit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam sed ligula nisl. Nam ullamcorper elit id magna hendrerit sit amet dignissim elit sodales. Aenean accumsan consectetur rutrum.';
