@@ -52,6 +52,11 @@
 	justify-content: space-around;
 }
 
+.empty-pet-list {
+	text-align: center;
+	padding-bottom: 20px;
+}	
+
 .pet-list-pet {
 	width: 180px;
 	height: 210px;
