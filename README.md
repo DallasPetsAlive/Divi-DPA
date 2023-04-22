@@ -1,5 +1,7 @@
 # Divi-DPA
 
+## Note: this is no longer in use! But feel free to borrow any code.
+
 Divi Wordpress child theme for Dallas Pets Alive.
 
 ## Synopsis
